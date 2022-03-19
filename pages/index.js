@@ -12,13 +12,14 @@ export async function getStaticProps() {
   }
 
   return {
-    props: { data }, 
+    props: { data, time: new Date().toString() }, 
+    revalidate: 10, // In seconds
   }
 }
 
-const Home=({data})=> {
+const Home=({data, time})=> {
   return (
-   <ul>{data.map(post=><li key = {post.id} style={{padding: '5px'}} >{post.id}  <Link href={`/post/${post.id}`} >{post.title}</Link></li>)}</ul>
+   <ul><li>{time}</li> {data.map(post=><li key = {post.id} style={{padding: '5px'}} >{post.id}  <Link href={`/post/${post.id}`} >{post.title}</Link></li>)}</ul>
      )
 }
 
