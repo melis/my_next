@@ -36,7 +36,7 @@ export async function getStaticProps({ params: { id }}) {
 
 function Post({post, user, time}) {
   const router=useRouter();
-  console.log(router)
+
   if (router.isFallback){
     return <div>loading...</div>
   }
