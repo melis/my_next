@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import Link from 'next/link'
+import { useRouter } from 'next/router';
 
 export async function getStaticProps({ params: { id }}) {
     try{
@@ -14,7 +15,8 @@ export async function getStaticProps({ params: { id }}) {
           return u}, null)
 
         return {
-            props: { post: data, user }, 
+            props: { post: data, user, time: new Date().toString() }, 
+            revalidate: 10, // In seconds
         }
 
     }catch(e){
@@ -27,21 +29,28 @@ export async function getStaticProps({ params: { id }}) {
  export async function getStaticPaths() {
     // const res = await fetch('https://jsonplaceholder.typicode.com/posts')
     // const data= await res.json()
+   
+
     return {
       paths: [{params: {id: "1"}}, ] ,
-      fallback: 'blocking',
+      fallback: true,
     }
   }
 
 
-function Post({post, user}) {
-
+function Post({post, user, time}) {
+  const router=useRouter();
+  console.log(router)
+  if (router.isFallback){
+    return <div>loading...</div>
+  }
     return (
         <div>
             <Link href='/' scroll={true}> home</Link>
             <h3>{post.title}</h3>
             <p>{post.body}</p>
             <p>{user.name}</p>
+            <p>{time}</p>
         </div>
     );
 }
