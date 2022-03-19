@@ -10,9 +10,7 @@ export async function getStaticProps({ params: { id }}) {
         throw new Error()
         }
         const users =await axios.get('https://jsonplaceholder.typicode.com/users')
-        const user= users.data.reduce((u, el)=>{ 
-          if(el.id==data.userId){ return el};
-          return u}, null)
+        const user= users.data.find(u=>u.id===data.userId)
 
         return {
             props: { post: data, user, time: new Date().toString() }, 
@@ -29,9 +27,7 @@ export async function getStaticProps({ params: { id }}) {
  export async function getStaticPaths() {
     // const res = await fetch('https://jsonplaceholder.typicode.com/posts')
     // const data= await res.json()
-   
-
-    return {
+       return {
       paths: [{params: {id: "1"}}, ] ,
       fallback: true,
     }
