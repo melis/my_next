@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import Link from 'next/link'
 import { useRouter } from 'next/router';
-
+import { useDispatch, useSelector } from 'react-redux'
 export async function getStaticProps({ params: { id }}) {
     try{
         const {data}=await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`)
@@ -36,7 +36,9 @@ export async function getStaticProps({ params: { id }}) {
 
 function Post({post, user, time}) {
   const router=useRouter();
+  const   {posts} =useSelector(a=>a.posts)
 
+console.log(posts)
   if (router.isFallback){
     return <div>loading...</div>
   }

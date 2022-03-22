@@ -6,10 +6,14 @@ import React from 'react';
 import {createWrapper} from 'next-redux-wrapper'
 
 class MyApp extends App {
- 
+ static async getInitialProps({Component, ctx}){
+   const appProps=Component.getInitialProps? await Component.getInitialProps(ctx): {};
+   console.log(appProps)
+   return { appProps}
+ }
   render(){
 
-    const {Component, pageProps}=this.props
+    const {Component, pageProps}=this.props  
 
     return <Provider store={store}>
                <div className='container'>
